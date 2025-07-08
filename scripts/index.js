@@ -75,7 +75,7 @@ class Cart {
 const cart = new Cart();
 
 let products = [];
-fetch('/api/productos.json')
+fetch('productos.json')
   .then(r => r.json())
   .then(data => {
     products = data.map(o => new Product(o));
