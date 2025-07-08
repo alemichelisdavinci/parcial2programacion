@@ -5,7 +5,6 @@
 
 'use strict';
 
-/* -------------------  Utilidades DOM  ------------------- */
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
 
@@ -21,7 +20,6 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-/* -------------------  Formato de moneda ARS  ------------------- */
 const formatPrice = v =>
   new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -29,7 +27,6 @@ const formatPrice = v =>
     minimumFractionDigits: 0
   }).format(v);
 
-/* -------------------  Modelo ------------------- */
 class Product {
   constructor(obj) { Object.assign(this, obj); }
 }
@@ -77,9 +74,8 @@ class Cart {
 
 const cart = new Cart();
 
-/* -------------------  Carga de datos ------------------- */
 let products = [];
-fetch('/api/productos') // Lo cambié cuando le puse el server, antes era productos.json
+fetch('/api/productos.json')
   .then(r => r.json())
   .then(data => {
     products = data.map(o => new Product(o));
@@ -88,7 +84,6 @@ fetch('/api/productos') // Lo cambié cuando le puse el server, antes era produc
     updateMiniCart();
   });
 
-/* -------------------  Renderizado ------------------- */
 function fillCategoryFilter() {
   const sel = $('#categoryFilter');
   [...new Set(products.map(p => p.categoria))]
@@ -121,7 +116,6 @@ function productCard(p) {
   );
 }
 
-/* ------------------- Modales ------------------- */
 function openProductModal(p) {
   const backdrop = el('div', { class: 'modal-backdrop' });
 
@@ -156,7 +150,6 @@ function openProductModal(p) {
 
 $('#miniCartBtn').addEventListener('click', openCartModal);
 
-/* ------------------- Modal Carrito ------------------- */
 function openCartModal() {
   const md = el('div', { class: 'modal-backdrop' });
   const box = el('div', { class: 'modal' });
@@ -216,7 +209,6 @@ function openCartModal() {
   $('#modalContainer').append(md);
 }
 
-/* ------------------- Filtros ------------------- */
 $('#categoryFilter').addEventListener('change', applyFilters);
 $('#priceOrder').addEventListener('change', applyFilters);
 $('#rangeBtn').addEventListener('click', applyFilters);
